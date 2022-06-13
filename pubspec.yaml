@@ -31,10 +31,10 @@ dependencies:
     sdk: flutter
   #Added by me
   excel: ^1.1.5
-  file_picker: ^1.4.2
+  file_picker: ^4.6.1
   qr_code_scanner: ^1.0.0
-  path_provider: ^1.6.24
-  permission_handler: ^5.0.1+1
+  path_provider: ^2.0.11
+  permission_handler: ^9.2.0
   cupertino_icons: ^1.0.2
 
 dev_dependencies:

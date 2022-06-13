@@ -209,7 +209,8 @@ class _InicioState extends State<Inicio> {
 //-------------------------------------------------------------------- DOCUMENTO EXCEL
   void getFilePath() async {
     try {
-      String filePath = await FilePicker.getFilePath(type: FileType.any);
+      String filePath =
+          (await FilePicker.platform.pickFiles(type: FileType.any)) as String;
       if (filePath == '') {
         return;
       } else {
