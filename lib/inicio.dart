@@ -45,7 +45,7 @@ class _InicioState extends State<Inicio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Ternium - Muestreo Muelle'),
         actions: <Widget>[
@@ -61,68 +61,62 @@ class _InicioState extends State<Inicio> {
           leading: RaisedButton(
             onPressed: () {
               showDialog(
-                  context: context,
-                  builder: (context) {
-                    return SimpleDialog(
-                        contentPadding: const EdgeInsets.all(0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6)),
-                        children: [
-                          Container(
-                              padding: const EdgeInsets.only(
-                                  top: 20, bottom: 20, left: 10, right: 10),
-                              child: Center(
-                                child: TextField(
-                                  controller: _pass,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Constraseña: ',
-                                  ),
-                                  obscureText: true,
-                                ),
-                              )),
-                          Container(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  // RaisedButton(
-                                  //   onPressed: () {
-                                  //     if (_pass.text == '123') {
-                                  //       _pass.text = '';
-                                  //       //cerrar el pop-up, y abrir otro donde guarde la nueva contraseña
-                                  //     }
-                                  //     Navigator.pop(context);
-                                  //   },
-                                  //   child: Text('Cambiar'),
-                                  // ),
-                                  RaisedButton(
-                                    onPressed: () {
-                                      if (_pass.text == '123') {
-                                        _pass.text = '';
-                                        getFilePath();
-                                      }
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Aceptar'),
-                                  ),
-                                ],
-                              )),
-                        ]);
-                  });
+                context: context,
+                builder: (context) {
+                  return SimpleDialog(
+                    contentPadding: const EdgeInsets.all(0),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6)),
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(
+                            top: 20, bottom: 20, left: 10, right: 10),
+                        child: Center(
+                          child: TextField(
+                            controller: _pass,
+                            decoration: const InputDecoration(
+                              labelText: 'Constraseña: ',
+                            ),
+                            obscureText: true,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            RaisedButton(
+                              onPressed: () {
+                                if (_pass.text == '123') {
+                                  _pass.text = '';
+                                  getFilePath();
+                                }
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Aceptar'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
             },
             padding: const EdgeInsets.all(20),
             child: const Icon(Icons.sd_storage),
           ),
           title: (Container(
-              margin: const EdgeInsets.only(right: 10.0),
-              child: Text(
-                iniciarAplicacion(),
-                style: TextStyle(
-                    // ignore: unnecessary_null_comparison
-                    color: _filePath == null ? Colors.redAccent : Colors.black),
-                overflow: TextOverflow.fade,
-              ))),
+            margin: const EdgeInsets.only(right: 10.0),
+            child: Text(
+              iniciarAplicacion(),
+              style: TextStyle(
+                  // ignore: unnecessary_null_comparison
+                  color: _filePath == null ? Colors.redAccent : Colors.black),
+              overflow: TextOverflow.fade,
+            ),
+          )),
         ),
         Container(
           padding: esXlsx() == ''
@@ -209,16 +203,16 @@ class _InicioState extends State<Inicio> {
 //-------------------------------------------------------------------- DOCUMENTO EXCEL
   void getFilePath() async {
     try {
-      String filePath =
-          (await FilePicker.platform.pickFiles(type: FileType.any)) as String;
-      if (filePath == '') {
+      // ignore: avoid_print
+      print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+      FilePickerResult? filePath = await FilePicker.platform.pickFiles();
+      if (filePath == null) {
         return;
       } else {
-        //_filePath = filePath;
-        //reEscribirDoc('docXlsx.txt', 1);
-
         setState(() {
-          _filePath = filePath;
+          _filePath = filePath.files.single.path;
+          // ignore: avoid_print
+          print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
           reEscribirDoc('docXlsx.txt', 1);
         });
       }
@@ -251,11 +245,14 @@ class _InicioState extends State<Inicio> {
   esXlsx() {
     // ignore: unnecessary_null_comparison
     if ((_filePath == null) ||
-        ((_filePath)!
-            .toLowerCase()
-            .contains(".xlsx", ((_filePath)!.length - 5)))) {
+        ((_filePath)!.toLowerCase().contains(
+              ".xlsx",
+              ((_filePath)!.length - 5),
+            ))) {
+      print('Pasó la validacion, valor: $_filePath');
       return '';
     } else {
+      print('No pasó la validacion, valor: $_filePath');
       return 'E';
     }
   }

@@ -25,7 +25,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late String _resultadoScanner;
+  String? _resultadoScanner;
   // ignore: prefer_typing_uninitialized_variables
   var _excel;
   final List _listaMatFull = [];
@@ -252,29 +252,25 @@ class _HomeState extends State<Home> {
                   height: 50,
                   child: Center(
                       child: Text(
-                    _resultadoScanner,
+                    _resultadoScanner!,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold),
                   )),
                 ),
                 Container(
-                  padding: const EdgeInsets.only(
-                      top: 20, bottom: 20, left: 10, right: 10),
-                  child: const Center(
-                    child: Text("hola"),
-                    /*(() {
-                          if (originalValue == 'X') {
-                            return "Identificar material para muestrear.";
-                          } else if (originalValue == 'N') {
-                            return "No debe muestrear este material.";
-                          } else if (originalValue == 'S') {
-                            return "Material ya identificado para muestrear.";
-                          }
-                        })(),*/
-                    //style: TextStyle(fontSize: 16),
-                  ),
-                ),
+                    padding: const EdgeInsets.only(
+                        top: 20, bottom: 20, left: 10, right: 10),
+                    child: originalValue == 'X'
+                        ? const Center(
+                            child: Text("Identificar material para muestrear."))
+                        : originalValue == 'N'
+                            ? const Center(
+                                child: Text("No debe muestrear este material."))
+                            : const Center(
+                                child: Text(
+                                    "Material ya identificado para muestrear.")) // originalValue == 'S'
+                    ),
                 Container(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Row(
@@ -348,7 +344,7 @@ class _HomeState extends State<Home> {
                     height: 50,
                     child: Center(
                         child: Text(
-                      _resultadoScanner,
+                      _resultadoScanner!,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold),
